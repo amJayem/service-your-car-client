@@ -1,12 +1,14 @@
-import React from 'react';
-import Slider from '../Common/Slider';
+import React from "react";
+import Banner from "../Common/Banner";
 
 const Home = () => {
-    return (
-        <div>
-            <div className='mb-16'><Slider/></div>
-        </div>
-    );
+  return (
+    <div>
+      <div className="mb-16">
+        <Banner />
+      </div>
+    </div>
+  );
 };
 
 export default Home;

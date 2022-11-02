@@ -5,7 +5,7 @@ import Header from '../Pages/Common/Header';
 
 const Main = () => {
     return (
-        <div>
+        <div className='mx-10'>
             <Header/>
             <Outlet/>
             <Footer/>

@@ -42,8 +42,9 @@ const Header = () => {
           </div> */}
         </div>
         <div className="navbar-center">
-          <Link className="btn btn-ghost normal-case text-xl">Home</Link>
+          <Link className="btn btn-ghost normal-case text-xl" to='/'>Home</Link>
           <Link className="btn btn-ghost normal-case text-xl">About</Link>
+          <Link className="btn btn-ghost normal-case text-xl" to='/login'>Login</Link>
         </div>
         <div className="navbar-end">
           <button className="btn btn-ghost btn-circle">

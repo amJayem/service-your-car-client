@@ -1,22 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import login from '../../assets/images/login/login.svg';
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import login from "../../assets/images/login/login.svg";
+import { AuthContext } from "../../Context/AuthProvider";
 
 const Register = () => {
-    return (
-        <div className="hero my-20 py-20 rounded-lg">
+  const {createUser} = useContext(AuthContext);
+
+  const handleChange = e =>{
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    // console.log(user);
+
+    createUser(email, password)
+    .then(data=>console.log(data))
+    .catch(e=>console.error('Signup error => ', e))
+  }
+
+  return (
+    <div className="hero my-20 py-20 rounded-lg">
       <div className="hero-content flex-col lg:flex-row">
         <div className="text-center">
           <img src={login} alt="" />
         </div>
-        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <form onSubmit={handleChange} className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <div className="card-body">
-          <h1 className="text-5xl font-bold">Sign Up</h1>
-          <p className="py-6 mx-auto my-0 ">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
-          </p>
+            <h1 className="text-5xl font-bold">Sign Up</h1>
+
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Name</span>
@@ -33,6 +44,7 @@ const Register = () => {
               </label>
               <input
                 type="email"
+                name="email"
                 placeholder="email"
                 className="input input-bordered"
               />
@@ -43,6 +55,7 @@ const Register = () => {
               </label>
               <input
                 type="text"
+                name="password"
                 placeholder="password"
                 className="input input-bordered"
               />
@@ -57,12 +70,17 @@ const Register = () => {
             </div>
           </div>
           <p className="text-center pb-10">Or Sign Up with</p>
-          <p className="text-center pb-10">Already have an account? 
-          <Link className="text-orange-600" to='/login'> Login</Link></p>
-        </div>
+          <p className="text-center pb-10">
+            Already have an account?
+            <Link className="text-orange-600" to="/login">
+              {" "}
+              Login
+            </Link>
+          </p>
+        </form>
       </div>
     </div>
-    );
+  );
 };
 
 export default Register;

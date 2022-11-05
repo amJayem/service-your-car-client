@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider";
+import toast from 'react-hot-toast'
 
 const CheckOut = () => {
   const { title, price, _id } = useLoaderData();
@@ -24,7 +25,24 @@ const CheckOut = () => {
         message
     }
     // console.log(order);
-  }
+
+    fetch(`http://localhost:5000/orders`, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(order)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data)
+        if(data.acknowledged){
+            form.reset();
+            toast('Order places..')
+        }
+    })
+    .catch(e=>console.error('placing order error => ',e));
+  };
   
   return (
     <div className="my-20">
@@ -56,7 +74,7 @@ const CheckOut = () => {
             type="email"
             name="email"
             placeholder="email"
-            className="input input-bordered input-secondary w-full "
+            className="input input-bordered  w-full "
             readOnly
             defaultValue={user?.email}
           />

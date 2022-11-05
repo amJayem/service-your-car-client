@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import logo from '../../assets/logo.svg'
+import logo from "../../assets/logo.svg";
+import { AuthContext } from "../../Context/AuthProvider";
 
 const Header = () => {
+  const { user, logOut } = useContext(AuthContext);
+  // console.log("headers: ", user);
+
+  const handleLogOut = () => {
+    logOut()
+      .then()
+      .catch((e) => console.error("logout error => ", e));
+  };
   return (
     <div className="my-10">
       <div className="navbar bg-base-100">
         <div className="navbar-start">
-            <img src={logo} alt="" />
+          <img src={logo} alt="" />
           {/* <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <svg
@@ -42,9 +51,26 @@ const Header = () => {
           </div> */}
         </div>
         <div className="navbar-center">
-          <Link className="btn btn-ghost normal-case text-xl" to='/'>Home</Link>
-          <Link className="btn btn-ghost normal-case text-xl">About</Link>
-          <Link className="btn btn-ghost normal-case text-xl" to='/login'>Login</Link>
+          <Link className="btn btn-ghost normal-case text-xl" to="/">
+            Home
+          </Link>
+          <Link to="/orders" className="btn btn-ghost normal-case text-xl">
+            Orders
+          </Link>
+          {user?.email ? (
+            <Link
+              className="btn btn-ghost normal-case text-xl"
+              onClick={handleLogOut}
+            >
+              Logout
+            </Link>
+          ) : (
+            <Link className="btn btn-ghost normal-case text-xl" to="/login">
+              Login
+            </Link>
+          )}
+
+          <p className="">{user?.email}</p>
         </div>
         <div className="navbar-end">
           <button className="btn btn-ghost btn-circle">

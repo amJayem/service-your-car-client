@@ -35,10 +35,10 @@ const CheckOut = () => {
     })
     .then(res=>res.json())
     .then(data=>{
-        console.log(data)
+        // console.log(data)
         if(data.acknowledged){
             form.reset();
-            toast('Order places..')
+            toast.success('Order places successfully..')
         }
     })
     .catch(e=>console.error('placing order error => ',e));
@@ -76,7 +76,7 @@ const CheckOut = () => {
             placeholder="email"
             className="input input-bordered  w-full "
             readOnly
-            defaultValue={user?.email}
+            defaultValue={user?.email || 'not registered'}
           />
         </div>
         <br />

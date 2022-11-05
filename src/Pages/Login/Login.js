@@ -2,9 +2,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import login from '../../assets/images/login/login.svg';
 import { AuthContext } from "../../Context/AuthProvider";
+import {GoogleAuthProvider} from 'firebase/auth';
 
 const Login = () => {
-    const {signInUser} = useContext(AuthContext);
+    const {signInUser, signInWithProvider} = useContext(AuthContext);
+    
+    const providerGoogle = new GoogleAuthProvider();
 
     const handleSubmit = e =>{
       e.preventDefault();
@@ -15,8 +18,16 @@ const Login = () => {
 
       signInUser(email,password)
       .then(data=>console.log(data))
-      .catch(e=>console.error('login error => ',e))
-    }
+      .catch(e=>console.error('login error => ',e));
+
+    };
+
+    const handleGoogleSignIn = () =>{
+      signInWithProvider(providerGoogle)
+      .then(data=>console.log(data.user))
+      .catch(e=>console.error('google login error => ',e))
+    };
+
   return (
     <div className="hero my-20 py-20 bg-base-200 rounded-lg">
       <div className="hero-content flex-col lg:flex-row">
@@ -57,6 +68,7 @@ const Login = () => {
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
             </div>
+            <Link className="btn" onClick={handleGoogleSignIn}>Sign in with google</Link>
           </div>
           <p className="text-center pb-10">New to car servicing? 
           <Link className="text-orange-600" to='/register'> Sign up</Link></p>

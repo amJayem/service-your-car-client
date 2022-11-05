@@ -2,11 +2,13 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import login from "../../assets/images/login/login.svg";
 import { AuthContext } from "../../Context/AuthProvider";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const Register = () => {
-  const {createUser} = useContext(AuthContext);
+  const { createUser, signInWithProvider } = useContext(AuthContext);
+  const providerGoogle = new GoogleAuthProvider();
 
-  const handleChange = e =>{
+  const handleChange = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
@@ -14,9 +16,15 @@ const Register = () => {
     // console.log(user);
 
     createUser(email, password)
-    .then(data=>console.log(data))
-    .catch(e=>console.error('Signup error => ', e))
-  }
+      .then((data) => console.log(data))
+      .catch((e) => console.error("Signup error => ", e));
+  };
+
+  const handleGoogleSignIn = () => {
+    signInWithProvider(providerGoogle)
+      .then((data) => console.log(data.user))
+      .catch((e) => console.error("google login error => ", e));
+  };
 
   return (
     <div className="hero my-20 py-20 rounded-lg">
@@ -24,7 +32,10 @@ const Register = () => {
         <div className="text-center">
           <img src={login} alt="" />
         </div>
-        <form onSubmit={handleChange} className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <form
+          onSubmit={handleChange}
+          className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100"
+        >
           <div className="card-body">
             <h1 className="text-5xl font-bold">Sign Up</h1>
 
@@ -68,8 +79,11 @@ const Register = () => {
             <div className="form-control mt-6">
               <button className="btn btn-primary">Sign up</button>
             </div>
+            <p className="text-center pb-3">Or Sign Up with</p>
+            <p onClick={handleGoogleSignIn} className="btn">
+              Sign-up with google
+            </p>
           </div>
-          <p className="text-center pb-10">Or Sign Up with</p>
           <p className="text-center pb-10">
             Already have an account?
             <Link className="text-orange-600" to="/login">

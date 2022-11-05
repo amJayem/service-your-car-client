@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-const OrdersRow = ({order}) => {
-    const { customer, email, price, service, serviceName} = order;
+const OrdersRow = ({order, handleDelete}) => {
+    const { _id, customer, email, price, service, serviceName} = order;
     // console.log(order);
     const [orderService, setOrderService] = useState({});
 
@@ -9,14 +9,14 @@ const OrdersRow = ({order}) => {
         fetch(`http://localhost:5000/services/${service}`)
         .then(res=>res.json())
         .then(data=> setOrderService(data))
-    },[service]);
+    },[service]);    
 
     return (
         <tr>
         <th>
           <label>
             {/* <input type="checkbox" className="checkbox" /> */}
-            <button className='btn btn-ghost'>X</button>
+            <button onClick={()=>handleDelete(_id)} className='btn btn-ghost'>X</button>
           </label>
         </th>
         <td>

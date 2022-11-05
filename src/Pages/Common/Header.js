@@ -54,9 +54,11 @@ const Header = () => {
           <Link className="btn btn-ghost normal-case text-xl" to="/">
             Home
           </Link>
-          <Link to="/orders" className="btn btn-ghost normal-case text-xl">
+          {
+            user?.email && <Link to="/orders" className="btn btn-ghost normal-case text-xl">
             Orders
-          </Link>
+            </Link>
+          }
           {user?.email ? (
             <Link
               className="btn btn-ghost normal-case text-xl"

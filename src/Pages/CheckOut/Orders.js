@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
+import OrdersRow from "./OrdersRow";
 
 const Orders = () => {
   const { user } = useContext(AuthContext);
@@ -15,6 +16,44 @@ const Orders = () => {
   return (
     <div>
       <h1>You have {orders.length} orders </h1>
+      <div className="overflow-x-auto w-full">
+  <table className="table w-full">
+    {/* <!-- head --> */}
+    <thead>
+      <tr>
+        <th>
+          <label>
+            <input type="checkbox" className="checkbox" />
+          </label>
+        </th>
+        <th>Name</th>
+        <th>Job</th>
+        <th>Favorite Color</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {/* <!-- row 1 --> */}
+      {
+        orders.map(order =><OrdersRow
+          key={order._id}
+          order={order}
+        ></OrdersRow>)
+      }
+    </tbody>
+    {/* <!-- foot --> */}
+    <tfoot>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Job</th>
+        <th>Favorite Color</th>
+        <th></th>
+      </tr>
+    </tfoot>
+    
+  </table>
+</div>
     </div>
   );
 };

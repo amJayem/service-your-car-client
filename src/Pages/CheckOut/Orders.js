@@ -14,6 +14,7 @@ const Orders = () => {
       .catch((e) => console.error("orders by email error => ", e));
   }, [user?.email]);
 
+
   const handleDelete = (id) => {
     const proceed = window.confirm("Are you sure, want to delete");
     if (proceed) {
@@ -32,7 +33,26 @@ const Orders = () => {
     }
   };
 
-  
+  const handleStatusUpdate = id =>{
+    fetch(`http://localhost:5000/orders/${id}`,{
+      method: 'PATCH',
+      headers:{
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({status: 'Approved'})
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      // console.log(data);
+      if(data.modifiedCount > 0){
+        const remaining = orders.filter(order=>order._id !== id);
+        const approving = orders.find(order=>order._id === id);
+        approving.status = "Approved";
+        const newOrders = [approving, ...remaining];
+        setOrders(newOrders);
+      }
+    });
+  };
 
   return (
     <div>
@@ -42,33 +62,20 @@ const Orders = () => {
           {/* <!-- head --> */}
           <thead>
             <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
+              <th>Delete</th>
+              <th>Service Name</th>
+              <th>Customer</th>
+              <th>Operation</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {/* <!-- row 1 --> */}
             {orders.map((order) => (
-              <OrdersRow key={order._id} order={order} handleDelete={handleDelete}></OrdersRow>
+              <OrdersRow key={order._id} order={order} handleDelete={handleDelete}
+              handleStatusUpdate={handleStatusUpdate}></OrdersRow>
             ))}
           </tbody>
-          {/* <!-- foot --> */}
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-              <th></th>
-            </tr>
-          </tfoot>
         </table>
       </div>
     </div>

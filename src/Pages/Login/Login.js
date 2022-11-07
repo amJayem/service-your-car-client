@@ -1,13 +1,17 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import login from '../../assets/images/login/login.svg';
 import { AuthContext } from "../../Context/AuthProvider";
 import {GoogleAuthProvider} from 'firebase/auth';
 
 const Login = () => {
     const {signInUser, signInWithProvider} = useContext(AuthContext);
-    
     const providerGoogle = new GoogleAuthProvider();
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const from = location.state?.from?.pathname || '/';
 
     const handleSubmit = e =>{
       e.preventDefault();
@@ -17,14 +21,20 @@ const Login = () => {
       // console.log(email, password);
 
       signInUser(email,password)
-      .then(data=>console.log(data))
+      .then(data=>{
+        console.log(data.user);
+        navigate(from, {replace: true});
+      })
       .catch(e=>console.error('login error => ',e));
 
     };
 
     const handleGoogleSignIn = () =>{
       signInWithProvider(providerGoogle)
-      .then(data=>console.log(data.user))
+      .then(data=>{
+        console.log(data.user);
+        navigate(from, {replace: true});
+      })
       .catch(e=>console.error('google login error => ',e))
     };
 

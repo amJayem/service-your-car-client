@@ -41,9 +41,9 @@ const Login = () => {
           console.log(data);
           // saving to local storage
           localStorage.setItem('token',data.token)
+          navigate(from, {replace: true});
         })
         // get jwt token end
-        // navigate(from, {replace: true});
       })
       .catch(e=>console.error('login error => ',e));
 
